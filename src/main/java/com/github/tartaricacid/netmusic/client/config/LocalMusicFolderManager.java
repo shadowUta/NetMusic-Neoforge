@@ -50,7 +50,10 @@ public class LocalMusicFolderManager {
                 String ext = FilenameUtils.getExtension(file.getName()).toLowerCase();
                 if (ext.equals("mp3") || ext.equals("flac") || ext.equals("aac") || ext.equals("m4a") || ext.equals("wav") || ext.equals("ogg")) {
                     try {
-                        String url = file.toURI().toURL().toString();
+                        // 用 toASCIIString() 生成百分号编码的 URL，避免中文路径/文件名
+                        // 以未编码字符形式存留（如 file:/D:/我的音乐/...），防止后续
+                        // NBT 存储、网络传输及严格 URI 解析环节出问题。
+                        String url = file.toURI().toASCIIString();
                         String name = FilenameUtils.getBaseName(file.getName());
                         result.add(new LocalMusicFile(name, file.getAbsolutePath(), url));
                     } catch (Exception e) {

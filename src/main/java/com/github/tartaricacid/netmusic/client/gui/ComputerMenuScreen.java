@@ -23,8 +23,6 @@ import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
@@ -191,14 +189,12 @@ public class ComputerMenuScreen extends AbstractContainerScreen<ComputerMenu> {
                 this.tips = Component.translatable("gui.netmusic.computer.url.local_file_error");
                 return;
             }
-            try {
-                URL url = file.toURI().toURL();
-                ItemMusicCD.SongInfo song = new ItemMusicCD.SongInfo(url.toString(), nameText, time, this.readOnlyButton.selected());
-                NetworkHandler.sendToServer(new SetMusicIDMessage(song));
-                return;
-            } catch (MalformedURLException e) {
-                NetMusic.LOGGER.error("Failed to convert file path to URL: {}", urlText, e);
-            }
+            // toASCIIString() 对中文路径/文件名做百分号编码，保证 file URL
+            // 在 CD 数据组件存储、网络包传输和播放解析时均安全。
+            String url = file.toURI().toASCIIString();
+            ItemMusicCD.SongInfo song = new ItemMusicCD.SongInfo(url, nameText, time, this.readOnlyButton.selected());
+            NetworkHandler.sendToServer(new SetMusicIDMessage(song));
+            return;
         }
         this.tips = Component.translatable("gui.netmusic.computer.url.error");
     }
