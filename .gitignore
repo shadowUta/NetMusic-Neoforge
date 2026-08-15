@@ -16,6 +16,7 @@ out
 
 # vscode
 .vscode
+Netmusic.code-workspace
 
 # gradle
 build
@@ -24,6 +25,7 @@ build
 # other
 eclipse
 runs
+run
 src/test
 
 # local JDK env (not committed)
