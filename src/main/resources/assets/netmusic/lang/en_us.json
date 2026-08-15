@@ -68,7 +68,7 @@
   "gui.netmusic.computer.time.not_number": "The song time format is incorrect, please enter the song time as a number!",
   "gui.netmusic.computer.browse_folder": "Browse Local Folder",
   "gui.netmusic.computer.folder_picker": "Select Local Music",
-  "gui.netmusic.computer.folder_empty": "No audio files found in configured folders. Please add folder paths to LocalMusicFolders in config/netmusic-common.toml",
+  "gui.netmusic.computer.folder_empty": "No audio files found in configured folders. Please add folder paths to LocalMusicFolders in config/net_music/netmusic-common.toml",
   "ai.netmusic.tool.play_music.search": "Search Music: %s",
   "ai.netmusic.tool.stop_music": "Stop Playing Music",
   "config.netmusic.general": "General Settings",

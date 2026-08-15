@@ -34,9 +34,9 @@ public class NetMusic {
         modEventBus.addListener(NetworkHandler::registerPacket);
         modEventBus.addListener(InitCapabilities::registerGenericItemHandlers);
 
-        modContainer.registerConfig(ModConfig.Type.COMMON, GeneralConfig.init());
+        modContainer.registerConfig(ModConfig.Type.COMMON, GeneralConfig.init(), "net_music/netmusic-common.toml");
         // 服务器↔客户端通讯限制参数（分块大小/超时/并发/列表上限），独立配置文件
-        modContainer.registerConfig(ModConfig.Type.SERVER, ServerNetworkConfig.init());
+        modContainer.registerConfig(ModConfig.Type.SERVER, ServerNetworkConfig.init(), "net_music/netmusic-server.toml");
 
         // 尽可能早的注册精妙背包兼容
         SBackpackCompat.register();

@@ -30,7 +30,7 @@ public record RequestLocalMusicListMessage() implements CustomPacketPayload {
                     java.util.List<LocalMusicListMessage.MusicFileEntry> payload = new java.util.ArrayList<>();
                     for (var entry : entries) {
                         if (payload.size() >= maxEntries) {
-                            NetMusic.LOGGER.warn("[netmusic] music folder list truncated at {} entries (see MaxListEntries in netmusic-server-common.toml)", maxEntries);
+                            NetMusic.LOGGER.warn("[netmusic] music folder list truncated at {} entries (see MaxListEntries in config/net_music/netmusic-server.toml)", maxEntries);
                             break;
                         }
                         payload.add(new LocalMusicListMessage.MusicFileEntry(

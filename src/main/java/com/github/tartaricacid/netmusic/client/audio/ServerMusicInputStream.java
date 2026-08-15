@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * 因此逐块向服务器请求 {@link RequestLocalMusicChunkMessage}，
  * 服务器返回对应字节块后拼接成流。用于给 javax.sound 解码。</p>
  *
- * <p>分块大小 / 超时 / 并发上限由 netmusic-server-common.toml
+ * <p>分块大小 / 超时 / 并发上限由 config/net_music/netmusic-server.toml
  * （{@link ServerNetworkConfig}）控制。</p>
  */
 public class ServerMusicInputStream extends InputStream {

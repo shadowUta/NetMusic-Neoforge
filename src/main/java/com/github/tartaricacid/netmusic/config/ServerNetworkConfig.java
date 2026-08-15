@@ -6,7 +6,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
  * 服务器与客户端通讯限制参数配置。
  *
  * <p>本地音乐分块传输、请求超时等网络参数集中在独立的
- * netmusic-server-common.toml 中。服务端与客户端必须使用一致的
+ * config/net_music/netmusic-server.toml 中。服务端与客户端必须使用一致的
  * 分块大小（协议约束），因此双端都从这里读取。</p>
  */
 public class ServerNetworkConfig {

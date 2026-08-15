@@ -69,7 +69,7 @@
   "gui.netmusic.computer.time.not_number": "歌曲时长格式不正确，请输入数字！",
   "gui.netmusic.computer.browse_folder": "浏览本地文件夹",
   "gui.netmusic.computer.folder_picker": "选择本地音乐",
-  "gui.netmusic.computer.folder_empty": "配置的文件夹中没有找到音频文件，请在 config/netmusic-common.toml 的 LocalMusicFolders 中添加文件夹路径",
+  "gui.netmusic.computer.folder_empty": "配置的文件夹中没有找到音频文件，请在 config/net_music/netmusic-common.toml 的 LocalMusicFolders 中添加文件夹路径",
   "ai.netmusic.tool.play_music.search": "搜索音乐：%s",
   "ai.netmusic.tool.stop_music": "停止播放音乐",
   "config.netmusic.general": "通用设置",

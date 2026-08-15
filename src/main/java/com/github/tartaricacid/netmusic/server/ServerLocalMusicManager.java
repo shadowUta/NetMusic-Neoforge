@@ -18,7 +18,7 @@ import java.util.List;
  * 或单人游戏主机）调用，读取的是服务端磁盘上的文件。</p>
  */
 public final class ServerLocalMusicManager {
-    /** 网络分块大小（字节），由 netmusic-server-common.toml 的 ChunkSizeKB 控制。 */
+    /** 网络分块大小（字节），由 config/net_music/netmusic-server.toml 的 ChunkSizeKB 控制。 */
     public static int chunkSize() {
         return ServerNetworkConfig.chunkSizeBytes();
     }
