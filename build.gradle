@@ -164,14 +164,14 @@ dependencies {
     // implementation "maven.modrinth:inventory-profiles-next:neoforge-1.21-2.0.4"
 
     // JEI
-    runtimeOnly("mezz.jei:jei-26.1.2-neoforge:29.5.0.26")
+    runtimeOnly("mezz.jei:jei-26.2-neoforge:30.24.0.165")
 
     // Sound Physics Remastered
     // runtimeOnly("maven.modrinth:sound-physics-remastered:neoforge-1.21.1-1.5.1")
 
     // Sophisticated Backpacks
-    implementation "maven.modrinth:sophisticated-core:26.1.2-1.4.56.1983"
-    implementation "maven.modrinth:sophisticated-backpacks:26.1.2-3.25.66.1859"
+    implementation "maven.modrinth:sophisticated-core:26.2-1.4.99.2265"
+    implementation "maven.modrinth:sophisticated-backpacks:26.2-3.25.90.2091"
 }
 
 // 用于 neoforge.mods 里替换那一堆 ${xxxx}

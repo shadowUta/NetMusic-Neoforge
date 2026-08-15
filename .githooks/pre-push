@@ -1,0 +1,23 @@
+#!/bin/sh
+# pre-push hook：每次 git push 前自动构建并检查编译是否通过。
+# 构建失败会中止推送，避免把编译错误推到远程（如 CI 失败）。
+#
+# 如需跳过检查：git push --no-verify
+
+echo ">>> [pre-push] 开始构建检查（compileJava + check）..."
+
+# 项目根目录（hook 位于 .githooks/ 下，向上两级到仓库根）
+ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+cd "$ROOT_DIR" || exit 1
+
+./gradlew build -x test --console=plain --build-cache
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+  echo ">>> [pre-push] 构建失败（exit=$STATUS），已中止推送。请修复后再试。"
+  echo ">>> [pre-push] 如需强制推送请使用：git push --no-verify"
+  exit 1
+fi
+
+echo ">>> [pre-push] 构建检查通过。"
+exit 0

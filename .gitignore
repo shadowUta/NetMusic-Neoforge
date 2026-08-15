@@ -26,6 +26,9 @@ eclipse
 runs
 src/test
 
+# local JDK env (not committed)
+.enve
+
 # Files from Forge MDK
 forge*changelog.txt
 .sisyphus
