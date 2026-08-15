@@ -33,6 +33,10 @@ public class ComputerMenuScreen extends AbstractContainerScreen<ComputerMenu> {
 
     private static final Pattern URL_HTTP_REG = Pattern.compile("(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-.,@?^=%&:/~+#]*[\\w\\-@?^=%&/~+#])?");
     private static final Pattern URL_FILE_REG = Pattern.compile("^[a-zA-Z]:\\\\(?:[^\\\\/:*?\"<>|\\r\\n]+\\\\)*[^\\\\/:*?\"<>|\\r\\n]*$");
+    // 本地文件夹选择器（LocalFolderPickerScreen）填的是 file:///C:/... 形式的 URL
+    private static final Pattern URL_FILE_PROTOCOL_REG = Pattern.compile("^file:///.+$");
+    // 服务器本地文件协议：netmusic-server://<id> 或者 netmusic-server://<id>/<fileLength>
+    private static final Pattern URL_SERVER_FILE_REG = Pattern.compile("^netmusic-server://[^/]+(?:/\\d+)?$");
     private static final Pattern TIME_REG = Pattern.compile("^\\d+$");
 
     private EditBox urlTextField;
@@ -111,6 +115,26 @@ public class ComputerMenuScreen extends AbstractContainerScreen<ComputerMenu> {
         timeTextField.setFocused(focus);
         timeTextField.moveCursorToEnd(false);
         this.addRenderableWidget(this.timeTextField);
+
+        this.addRenderableWidget(Button.builder(Component.translatable("gui.netmusic.computer.browse_folder"), b -> {
+            if (this.minecraft != null) {
+                this.minecraft.gui.setScreen(new LocalFolderPickerScreen(this));
+            }
+        }).pos(leftPos + 7, topPos + 100).size(135, 18).build());
+    }
+
+    public void applyPickedFile(LocalFolderPickerScreen.PickerFile file) {
+        this.urlTextField.setValue(file.url());
+        this.nameTextField.setValue(file.name());
+        // setValue 后光标默认停在开头，EditBox 只显示从光标开始的文本，
+        // 长 URL / 中文文件名会被"截断"成前面几个字符。移动光标到末尾，
+        // 让输入框显示文本结尾（文件名部分可见）。
+        this.urlTextField.moveCursorToEnd(false);
+        this.nameTextField.moveCursorToEnd(false);
+        // 服务端扫描时解析出的时长（秒），自动填入；为 0 时留空由用户填写
+        if (file.timeSeconds() > 0) {
+            this.timeTextField.setValue(String.valueOf(file.timeSeconds()));
+        }
     }
 
     private void handleCraftButton() {
@@ -149,6 +173,18 @@ public class ComputerMenuScreen extends AbstractContainerScreen<ComputerMenu> {
             NetworkHandler.sendToServer(new SetMusicIDMessage(song));
             return;
         }
+        if (URL_SERVER_FILE_REG.matcher(urlText).matches()) {
+            // 服务器本地文件协议 netmusic-server://<id>/<fileLength>
+            ItemMusicCD.SongInfo song = new ItemMusicCD.SongInfo(urlText, nameText, time, this.readOnlyButton.selected());
+            NetworkHandler.sendToServer(new SetMusicIDMessage(song));
+            return;
+        }
+        if (URL_FILE_PROTOCOL_REG.matcher(urlText).matches()) {
+            // 本地文件夹选择器填的 file:///C:/... URL，直接使用
+            ItemMusicCD.SongInfo song = new ItemMusicCD.SongInfo(urlText, nameText, time, this.readOnlyButton.selected());
+            NetworkHandler.sendToServer(new SetMusicIDMessage(song));
+            return;
+        }
         if (URL_FILE_REG.matcher(urlText).matches()) {
             File file = Paths.get(urlText).toFile();
             if (!file.isFile()) {
@@ -176,7 +212,7 @@ public class ComputerMenuScreen extends AbstractContainerScreen<ComputerMenu> {
         super.extractBackground(graphics, mouseX, mouseY, a);
         graphics.blit(RenderPipelines.GUI_TEXTURED, BG, leftPos, topPos, 0, 0,
                 imageWidth, imageHeight, 256, 256);
-        this.minecraft.gui.extractDeferredSubtitles();
+        // No equivalent call in 1.21.x / NeoForge 26.2.x, skipping extractDeferredSubtitles
     }
 
     @Override
@@ -195,7 +231,7 @@ public class ComputerMenuScreen extends AbstractContainerScreen<ComputerMenu> {
             graphics.text(font, Component.translatable("gui.netmusic.computer.time.tips").withStyle(ChatFormatting.ITALIC),
                     this.leftPos + 11, this.topPos + 61, color, false);
         }
-        graphics.textWithWordWrap(font, tips, this.leftPos + 8, this.topPos + 100,
+        graphics.textWithWordWrap(font, tips, this.leftPos + 8, this.topPos + 122,
                 162, 0xFFCF0000, false);
     }
 

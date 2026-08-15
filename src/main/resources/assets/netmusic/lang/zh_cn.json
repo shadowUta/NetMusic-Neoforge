@@ -19,6 +19,7 @@
   "message.netmusic.music_player.need_vip": "这首歌曲是 VIP 歌曲，无法播放",
   "message.netmusic.music_player.404": "无法找到链接为 %s 的歌曲",
   "message.netmusic.music_player.play_error": "播放音乐失败",
+  "message.netmusic.music_player.view_error": "点击复制错误",
   "message.netmusic.big_megaphone.play_error": "大喇叭播放失败",
   "subtitle.netmusic.block.music_player": "唱片机声",
   "command.netmusic.music_cd.reload.success": "所有的唱片重载了！",
@@ -66,6 +67,9 @@
   "gui.netmusic.computer.time.tips": "时长（秒）",
   "gui.netmusic.computer.time.empty": "歌曲时长不能为空",
   "gui.netmusic.computer.time.not_number": "歌曲时长格式不正确，请输入数字！",
+  "gui.netmusic.computer.browse_folder": "浏览本地文件夹",
+  "gui.netmusic.computer.folder_picker": "选择本地音乐",
+  "gui.netmusic.computer.folder_empty": "配置的文件夹中没有找到音频文件，请在 config/netmusic-common.toml 的 LocalMusicFolders 中添加文件夹路径",
   "ai.netmusic.tool.play_music.search": "搜索音乐：%s",
   "ai.netmusic.tool.stop_music": "停止播放音乐",
   "config.netmusic.general": "通用设置",
@@ -104,5 +108,6 @@
   "block.netmusic.music_player.tip": "将音乐唱片放入唱片机，享受你喜爱的音乐。",
   "block.netmusic.cd_burner.tip": "只可写入网易云音乐链接（仅在中国大陆可用）",
   "block.netmusic.computer.tip": "用于通过本地或网络将喜欢的音乐写入唱片，仅支持 mp3/flac 格式",
-  "block.netmusic.big_megaphone.tip": "可配置 m3u8 直播音频并向附近玩家持续广播"
+  "block.netmusic.big_megaphone.tip": "可配置 m3u8 直播音频并向附近玩家持续广播",
+  "gui.netmusic.computer.folder_loading": "正在加载列表..."
 }

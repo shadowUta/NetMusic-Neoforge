@@ -96,11 +96,26 @@ public class NetMusicSound extends AbstractTickableSoundInstance {
         }
     }
 
-    private void errorStop() {
-        // 直接把 tick 设置为结束的时间点，这样就能在下一次 tick 时正常结束
+    public static volatile String LAST_PLAY_ERROR = "";
+
+    private void errorStop(Throwable e) {
         this.tick = tickTimes;
+        
+        String errorDetail = "Class: " + e.getClass().getName() + "\nMessage: " + e.getMessage() + "\nStackTrace:\n";
+        int maxLines = 5;
+        for (int i = 0; i < Math.min(e.getStackTrace().length, maxLines); i++) {
+            errorDetail += "  at " + e.getStackTrace()[i] + "\n";
+        }
+        LAST_PLAY_ERROR = errorDetail;
+        
         MutableComponent error = Component.translatable("message.netmusic.music_player.play_error");
-        Minecraft.getInstance().gui.setOverlayMessage(error, false);
+        // 26.2 中 ClickEvent 是抽象类，使用子类 CopyToClipboard
+        error.append(net.minecraft.network.chat.ComponentUtils.wrapInSquareBrackets(Component.translatable("message.netmusic.music_player.view_error"))
+                .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.CopyToClipboard(LAST_PLAY_ERROR))));
+                
+        if (Minecraft.getInstance().player != null) {
+            Minecraft.getInstance().player.sendSystemMessage(error);
+        }
     }
 
     @Override
@@ -110,7 +125,7 @@ public class NetMusicSound extends AbstractTickableSoundInstance {
                 return new NetMusicAudioStream(this.songUrl);
             } catch (IOException | UnsupportedAudioFileException e) {
                 NetMusic.LOGGER.error("Failed to create audio stream for URL: {}", songUrl, e);
-                Minecraft.getInstance().submit(this::errorStop);
+                Minecraft.getInstance().submit(() -> this.errorStop(e));
             }
 
             // 播放失败返回一个默认音频，避免 tick 里的音频实例不能够删除

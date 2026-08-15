@@ -20,6 +20,7 @@ public final class AudioStreamHandlerManager {
         registerHandler(new CnrM3u8Handler());
         registerHandler(new M3u8Handler());
         registerHandler(new NetEaseHttpHandler());
+        registerHandler(new ServerLocalFileHandler());
         registerHandler(new LocalFileHandler());
         registerHandler(new DirectHttpHandler());
 

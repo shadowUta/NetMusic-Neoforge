@@ -22,6 +22,12 @@ public class NetworkHandler {
 
         registrar.playToServer(SetMusicIDMessage.TYPE, SetMusicIDMessage.STREAM_CODEC, SetMusicIDMessage::handle);
 
+        // 服务器本地音乐文件夹（联机场景）：列表 + 分块传输
+        registrar.playToServer(RequestLocalMusicListMessage.TYPE, RequestLocalMusicListMessage.STREAM_CODEC, RequestLocalMusicListMessage::handle);
+        registrar.playToClient(LocalMusicListMessage.TYPE, LocalMusicListMessage.STREAM_CODEC, LocalMusicListMessage::handle);
+        registrar.playToServer(RequestLocalMusicChunkMessage.TYPE, RequestLocalMusicChunkMessage.STREAM_CODEC, RequestLocalMusicChunkMessage::handle);
+        registrar.playToClient(LocalMusicChunkMessage.TYPE, LocalMusicChunkMessage.STREAM_CODEC, LocalMusicChunkMessage::handle);
+
         registrar.playToClient(BigMegaphoneStartMessage.TYPE, BigMegaphoneStartMessage.STREAM_CODEC, BigMegaphoneStartMessage::handle);
         registrar.playToClient(BigMegaphoneStopMessage.TYPE, BigMegaphoneStopMessage.STREAM_CODEC, BigMegaphoneStopMessage::handle);
         registrar.playToServer(BigMegaphoneControlMessage.TYPE, BigMegaphoneControlMessage.STREAM_CODEC, BigMegaphoneControlMessage::handle);

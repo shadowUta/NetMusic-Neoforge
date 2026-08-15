@@ -4,6 +4,7 @@ import com.github.tartaricacid.netmusic.api.NetEaseMusic;
 import com.github.tartaricacid.netmusic.api.WebApi;
 import com.github.tartaricacid.netmusic.compat.sbackpack.SBackpackCompat;
 import com.github.tartaricacid.netmusic.config.GeneralConfig;
+import com.github.tartaricacid.netmusic.config.ServerNetworkConfig;
 import com.github.tartaricacid.netmusic.init.*;
 import com.github.tartaricacid.netmusic.network.NetworkHandler;
 import net.neoforged.bus.api.IEventBus;
@@ -34,6 +35,8 @@ public class NetMusic {
         modEventBus.addListener(InitCapabilities::registerGenericItemHandlers);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, GeneralConfig.init());
+        // 服务器↔客户端通讯限制参数（分块大小/超时/并发/列表上限），独立配置文件
+        modContainer.registerConfig(ModConfig.Type.SERVER, ServerNetworkConfig.init());
 
         // 尽可能早的注册精妙背包兼容
         SBackpackCompat.register();

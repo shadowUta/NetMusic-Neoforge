@@ -163,7 +163,7 @@ public class CDBurnerMenuScreen extends AbstractContainerScreen<CDBurnerMenu> {
         super.extractBackground(graphics, mouseX, mouseY, a);
         graphics.blit(RenderPipelines.GUI_TEXTURED, BG, leftPos, topPos, 0, 0,
                 imageWidth, imageHeight, 256, 256);
-        this.minecraft.gui.extractDeferredSubtitles();
+        // No equivalent call in 1.21.x / NeoForge 26.2.x, skipping extractDeferredSubtitles
     }
 
     @Override

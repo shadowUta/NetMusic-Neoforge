@@ -36,7 +36,13 @@ public class NetMusicAudioStream implements AudioStream {
     private volatile Throwable failed;
 
     public NetMusicAudioStream(URL url) throws UnsupportedAudioFileException, IOException {
-        AudioInputStream originalInputStream = AudioStreamHandlerManager.handle(url);
+        AudioInputStream originalInputStream;
+        try {
+            originalInputStream = AudioStreamHandlerManager.handle(url);
+        } catch (UnsupportedAudioFileException | IOException e) {
+            NetMusic.LOGGER.error("[netmusic] Failed to handle audio stream for url {}: {}", url, e.getMessage(), e);
+            throw e;
+        }
         AudioFormat originalFormat = originalInputStream.getFormat();
         AudioFormat targetFormat = getTargetPCMAudioFormat(originalFormat);
         AudioInputStream targetInputStream = AudioSystem.getAudioInputStream(targetFormat, originalInputStream);

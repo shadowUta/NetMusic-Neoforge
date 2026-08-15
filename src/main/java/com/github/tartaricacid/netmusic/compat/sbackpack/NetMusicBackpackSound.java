@@ -83,7 +83,9 @@ public class NetMusicBackpackSound extends AbstractTickableSoundInstance {
         // 直接把 tick 设置为结束的时间点，这样就能在下一次 tick 时正常结束
         this.tick = tickTimes;
         MutableComponent error = Component.translatable("message.netmusic.music_player.play_error");
-        Minecraft.getInstance().gui.setOverlayMessage(error, false);
+        if (Minecraft.getInstance().player != null) {
+            Minecraft.getInstance().player.sendSystemMessage(error);
+        }
     }
 
     @Override

@@ -24,6 +24,7 @@ public class GeneralConfig {
 
     public static ModConfigSpec.BooleanValue ENABLE_NETMUSIC_CD_GENERATION;
     public static ModConfigSpec.BooleanValue ENABLE_VIP_NETMUSIC_CD_GENERATION;
+    public static ModConfigSpec.ConfigValue<java.util.List<? extends String>> LOCAL_MUSIC_FOLDERS;
 
     public static ModConfigSpec init() {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -64,6 +65,12 @@ public class GeneralConfig {
 
         builder.comment("Maximum number of simultaneous big megaphone broadcasts a client will actively play");
         BIG_MEGAPHONE_CLIENT_ACTIVE_LIMIT = builder.defineInRange("BigMegaphoneClientActiveLimit", 3, 1, 16);
+
+        builder.comment("List of absolute paths to local folders for music scanning. "
+                + "Audio files (mp3/flac/aac/m4a/wav/ogg) inside these folders and "
+                + "their subfolders can be picked in the Computer GUI to create music CDs. "
+                + "Example: [\"D:/Music\", \"C:/Users/me/Music\"]");
+        LOCAL_MUSIC_FOLDERS = builder.defineList("LocalMusicFolders", java.util.List.of(), e -> e instanceof String);
 
         builder.pop();
         builder.push("sophisticated_backpacks");
